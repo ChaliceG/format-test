@@ -29,22 +29,22 @@ describe.skip('Padder', function() {
       (typeof padder.buildPadString(5)).should.equal('string');
     });
     [
-            {
-              length: 14,
-              padding: '22'
-            },
-            {
-              length: 16,
-              padding: 'fffffffffffffff'
-            }
-        ].forEach(testCase => {
-          it('creates a pad for str of len ' +
-                `${testCase.length} with ${testCase.padding}`, function() {
-                  var padder = new Padder();
+      {
+        length: 14,
+        padding: '22'
+      },
+      {
+        length: 16,
+        padding: 'fffffffffffffff'
+      }
+    ].forEach(testCase => {
+      it('creates a pad for str of len ' +
+        `${testCase.length} with ${testCase.padding}`, function() {
+        var padder = new Padder();
 
-                  padder.buildPadString(testCase.length)
-                    .should.equal(testCase.padding);
-                });
-        });
+        padder.buildPadString(testCase.length)
+          .should.equal(testCase.padding);
+      });
+    });
   });
 });
