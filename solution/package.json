@@ -1,0 +1,22 @@
+{
+  "name": "db-file-parser",
+  "version": "1.0.0",
+  "description": "service to parse db files",
+  "main": "src/app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChaliceG/format-test.git"
+  },
+  "author": "Charlie Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChaliceG/format-test/issues"
+  },
+  "homepage": "https://github.com/ChaliceG/format-test#readme"
+}
