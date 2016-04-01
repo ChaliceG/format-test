@@ -36,7 +36,30 @@ describe('Head', function() {
       failed.should.equal(true);
     });
   });
-  describe('#generateKey', function() {
-    it('should use ');
+  describe('#createCiphers', function() {
+    it('should return two ciphers', function () {
+        var head = new Head();
+
+        var ciphers = head.createCiphers('pwpwpwpwpwpw');
+
+        (typeof ciphers.autoPad).should.equal('object');
+        (typeof ciphers.noPad).should.equal('object');
+    });
+    it('requires a password string', function() {
+      var head = new Head(new Buffer(200));
+      var failed = false;
+
+      try {
+        head.createCiphers();
+      } catch (err) {
+        failed = true;
+        err.message.should.contain('password');
+      }
+
+      failed.should.equal(true);
+    });
+  });
+  describe('#toBuffer', function() {
+    it('should exist')
   });
 });
