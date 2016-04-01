@@ -1,10 +1,9 @@
-var MD5 = require('../src/md5');
+var md5 = require('../src/md5');
 
 describe('MD5', function() {
-  describe('#hash', function() {
+  describe('#digest', function() {
     it('makes a hashed buffer of 16 bytes from the input', function() {
-      var md5 = new MD5();
-      var hash = md5.hash('blahb');
+      var hash = md5.digest('blahb');
 
       (typeof hash.write).should.equal('function');
       hash.length.should.equal(16);

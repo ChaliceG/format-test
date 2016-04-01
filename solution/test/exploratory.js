@@ -1,4 +1,4 @@
-var fs = require('fs');
+/*var fs = require('fs');
 var crypto = require('crypto');
 var algorithm = 'aes128';
 
@@ -26,8 +26,8 @@ var dec = decipher.update(file.slice(24, 88));
 
 //decodedBuffer.write(dec);
 
-console.log('random string: ' + dec.slice(0, 32).toString('utf8'))
+console.log('random string: ' + dec.slice(0, 32).toString('utf8'));
 var digest = crypto.createHash('md5').update(dec.slice(0, 32)).digest();
-console.log('md5 digest: ' + digest.toString('utf8'))
-console.log('md5 hash: ' + dec.slice(32, 48).toString('utf8'))
-console.log('zeroes: ' + dec.slice(48, 64).toString('utf8'))
+console.log('md5 digest: ' + digest.toString('utf8'));
+console.log('md5 hash: ' + dec.slice(32, 48).toString('utf8'));
+console.log('zeroes: ' + dec.slice(48, 64).toString('utf8'));*/
