@@ -7,6 +7,7 @@ module.exports = {
     },
     start: 0,
     end: 24,
+    marker: new Buffer('badcab00', 'hex'),
     saltStart: 4,
     saltEnd: 8,
     ivStart: 8,

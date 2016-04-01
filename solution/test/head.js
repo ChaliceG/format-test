@@ -37,13 +37,13 @@ describe('Head', function() {
     });
   });
   describe('#createCiphers', function() {
-    it('should return two ciphers', function () {
-        var head = new Head();
+    it('should return two ciphers', function() {
+      var head = new Head();
 
-        var ciphers = head.createCiphers('pwpwpwpwpwpw');
+      var ciphers = head.createCiphers('pwpwpwpwpwpw');
 
-        (typeof ciphers.autoPad).should.equal('object');
-        (typeof ciphers.noPad).should.equal('object');
+      (typeof ciphers.autoPad).should.equal('object');
+      (typeof ciphers.noPad).should.equal('object');
     });
     it('requires a password string', function() {
       var head = new Head(new Buffer(200));
@@ -60,6 +60,10 @@ describe('Head', function() {
     });
   });
   describe('#toBuffer', function() {
-    it('should exist')
+    it('should return a buffer', function() {
+      var head = new Head();
+
+      Buffer.isBuffer(head.toBuffer()).should.equal(true);
+    });
   });
 });
