@@ -15,30 +15,29 @@ var testCiphers = {
   autoPad: crypto.createCipheriv(algorithm, key, iv)
 };
 
-describe('Body', function () {
-    describe('#constructor', function () {
-        it('takes ciphers and a file buffer or pojo contents',
-        function () {
-            var bodyBuffer = new Body(testDeciphers, new Buffer(200));
+describe('Body', function() {
+  describe('#constructor', function() {
+    it('takes ciphers and a file buffer or pojo contents',
+        function() {
+          var bodyBuffer = new Body(testDeciphers, new Buffer(200));
 
-            Buffer.isBuffer(bodyBuffer.buffer).should.equal(true);
-            (typeof bodyBuffer.ciphers.autoPad).should.equal('object');
+          Buffer.isBuffer(bodyBuffer.buffer).should.equal(true);
+          (typeof bodyBuffer.ciphers.autoPad).should.equal('object');
 
-            var bodyPojo = new Body(testCiphers, {foo: 'bar'});
+          var bodyPojo = new Body(testCiphers, {foo: 'bar'});
 
-            bodyPojo.contents.should.have.property('foo').equal('bar');
-            (typeof bodyBuffer.ciphers.autoPad).should.equal('object');
+          bodyPojo.contents.should.have.property('foo').equal('bar');
+          (typeof bodyBuffer.ciphers.autoPad).should.equal('object');
         });
-    });
-    describe('#getContents', function () {
-        it('returns a contents pojo', function () {
-            var bodyBuffer = new Body(testDeciphers, testFile);
+  });
+  describe('#getContents', function() {
+    it('returns a contents pojo', function() {
+      var bodyBuffer = new Body(testDeciphers, testFile);
 
-            var contents = bodyBuffer.getContents();
+      var contents = bodyBuffer.getContents();
 
-            console.log(contents)
-            contents.should.have.property('are you');
-        });
+      contents.should.have.property('are you');
     });
-    //describe('#toBuffer');
+  });
+  //describe('#toBuffer');
 });
