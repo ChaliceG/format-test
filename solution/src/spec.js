@@ -16,11 +16,11 @@ module.exports = {
   testBlock: {
     start: 24,
     end: 88,
-    randomStringStart: 24,
-    randomStringEnd: 56,
-    digestStart: 56,
-    digestEnd: 72,
-    zeroesStart: 72,
-    zeroesEnd: 88
+    randomStringStart: 0,
+    randomStringEnd: 32,
+    digestStart: 32,
+    digestEnd: 48,
+    zeroesStart: 48,
+    zeroesEnd: 64
   }
 };

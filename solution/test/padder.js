@@ -1,4 +1,4 @@
-var Padder = require('../src/padder');
+/*var Padder = require('../src/padder');
 
 describe.skip('Padder', function() {
   describe('#constructor', function() {
@@ -48,3 +48,4 @@ describe.skip('Padder', function() {
     });
   });
 });
+*/

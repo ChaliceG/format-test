@@ -1,11 +1,12 @@
 var TestBlock = require('../../src/components/testBlock');
-var randomStrings = require('../../src/randomStrings');
 var digest = require('../../src/md5').digest;
+var fs = require('fs');
 var crypto = require('crypto');
 var algorithm = 'aes128';
 
-var key = digest('testkey');
-var iv = randomStrings.cryptoRandom(16);
+var testFile = fs.readFileSync(__dirname + '/../assets/demo.db');
+var key = digest('wYl0$uberpass');
+var iv = testFile.slice(8, 24);
 var noPadDecipher = crypto.createDecipheriv(algorithm, key, iv);
 noPadDecipher.setAutoPadding(false);
 var noPadCipher = crypto.createCipheriv(algorithm, key, iv);
@@ -32,13 +33,21 @@ describe('TestBlock', function() {
     });
   });
   describe('#toBuffer', function() {
-    it('should return a buffer of the testblock\'s contents', function() {
+    it('should return a buffer of the test block\'s contents', function() {
       var testBlock = new TestBlock(testCiphers);
 
       var buffer = testBlock.toBuffer();
       Buffer.isBuffer(buffer).should.equal(true);
       buffer.length.should.equal(64);
     });
+    it('should encrypt the contents of the test block');
   });
-  //describe('#validate');
+  describe('#validate', function() {
+    it.skip('returns true if the digest is the digest of the random string',
+    function() {
+      var testBlock = new TestBlock(testDeciphers, testFile);
+
+      testBlock.validate().should.equal(true);
+    });
+  });
 });
