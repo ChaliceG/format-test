@@ -12,33 +12,33 @@ var noPadCipher = crypto.createCipheriv(algorithm, key, iv);
 noPadCipher.setAutoPadding(false);
 
 var testDeciphers = {
-    noPad: noPadDecipher
+  noPad: noPadDecipher
 };
 var testCiphers = {
-    noPad: noPadCipher
+  noPad: noPadCipher
 };
 
-describe('TestBlock', function () {
-    describe('#Constructor', function () {
-        it('should take and save ciphers', function () {
-            var testBlock = new TestBlock(testCiphers);
+describe('TestBlock', function() {
+  describe('#Constructor', function() {
+    it('should take and save ciphers', function() {
+      var testBlock = new TestBlock(testCiphers);
 
-            (typeof testBlock.ciphers.noPad).should.equal('object');
-        });
-        it('should take an optional buffer and decrypt it', function () {
-            var testBlock = new TestBlock(testDeciphers, new Buffer(200));
-
-            Buffer.isBuffer(testBlock.decipheredBuffer).should.equal(true);
-        });
+      (typeof testBlock.ciphers.noPad).should.equal('object');
     });
-    describe('#toBuffer', function () {
-        it('should return a buffer of the testblock\'s contents', function () {
-            var testBlock = new TestBlock(testCiphers);
+    it('should take an optional buffer and decrypt it', function() {
+      var testBlock = new TestBlock(testDeciphers, new Buffer(200));
 
-            var buffer = testBlock.toBuffer();
-            Buffer.isBuffer(buffer).should.equal(true);
-            buffer.length.should.equal(64);
-        });
+      Buffer.isBuffer(testBlock.decipheredBuffer).should.equal(true);
     });
-    //describe('#validate');
+  });
+  describe('#toBuffer', function() {
+    it('should return a buffer of the testblock\'s contents', function() {
+      var testBlock = new TestBlock(testCiphers);
+
+      var buffer = testBlock.toBuffer();
+      Buffer.isBuffer(buffer).should.equal(true);
+      buffer.length.should.equal(64);
+    });
+  });
+  //describe('#validate');
 });
