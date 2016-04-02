@@ -11,9 +11,9 @@ module.exports = {
     var testBlock = new TestBlock(deciphers, file);
 
     if (testBlock.validate()) {
-      var body = new Body(file, deciphers);
+      var body = new Body(deciphers, file);
 
-      return body.toJson();
+      return body.getContents();
     } else {
       throw new Error('Incorrect password');
     }

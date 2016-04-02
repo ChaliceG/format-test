@@ -1,5 +1,6 @@
 module.exports = {
   format: 'utf8',
+  blockSize: 16,
   algorithm: 'aes128',
   head: {
     keyString: function(salt, password) {
@@ -22,5 +23,8 @@ module.exports = {
     digestEnd: 48,
     zeroesStart: 48,
     zeroesEnd: 64
+  },
+  body: {
+    start: 88
   }
 };
