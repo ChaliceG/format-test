@@ -31,9 +31,13 @@ Body.prototype.getKvps = function() {
 
 Body.prototype.getContents = function() {
   return this.getKvps().reduce((aggregate, nextKvp) => {
-    aggregate[nextKvp.getKey()] = nextKvp.getValue();
+    aggregate[nextKvp.getKey()] = this.decryptValue(nextKvp.getValue());
     return aggregate;
   }, {});
+};
+
+Body.prototype.decryptValue = function (value) {
+  return this.ciphers.autoPad.update(value).toString('utf8');
 };
 
 Body.prototype.toBuffer = function() {
