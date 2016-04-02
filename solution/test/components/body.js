@@ -36,6 +36,7 @@ describe('Body', function () {
 
             var contents = bodyBuffer.getContents();
 
+            console.log(contents)
             contents.should.have.property('are you');
         });
     });
