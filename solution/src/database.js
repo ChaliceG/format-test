@@ -8,9 +8,9 @@ module.exports = {
     var file = fs.readFileSync(path);
     var head = new Head(file);
     var deciphers = head.createDeciphers(password);
-    var testBlock = new TestBlock(file);
+    var testBlock = new TestBlock(deciphers, file);
 
-    if (testBlock.validate(deciphers)) {
+    if (testBlock.validate()) {
       var body = new Body(file, deciphers);
 
       return body.toJson();

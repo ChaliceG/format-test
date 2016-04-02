@@ -1,4 +1,4 @@
-var Head = require('../src/components/head');
+var Head = require('../../src/components/head');
 
 describe('Head', function() {
   describe('#constructor', function() {
