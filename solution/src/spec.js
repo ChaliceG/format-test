@@ -1,3 +1,5 @@
+var randomStrings = require('./randomStrings');
+
 module.exports = {
   format: 'utf8',
   blockSize: 16,
@@ -15,10 +17,14 @@ module.exports = {
     ivEnd: 24
   },
   testBlock: {
+    parse_randomString: function() {
+      return this.buffer.slice(0, 32);
+    },
+    build_randomString: function() {
+      return randomStrings.cryptoRandom(32);
+    },
     start: 24,
     end: 88,
-    randomStringStart: 0,
-    randomStringEnd: 32,
     digestStart: 32,
     digestEnd: 48,
     zeroesStart: 48,
