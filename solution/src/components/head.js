@@ -31,11 +31,15 @@ function createCipher(instance, password, constructor, algorithm) {
 }
 
 Head.prototype.createDeciphers = function(password) {
-  return createCipher(this, password, crypto.createDecipheriv, this.spec.algorithm);
+  return createCipher(this, password,
+    crypto.createDecipheriv,
+    this.spec.algorithm);
 };
 
 Head.prototype.createCiphers = function(password) {
-  return createCipher(this, password, crypto.createCipheriv, this.spec.algorithm);
+  return createCipher(this, password,
+    crypto.createCipheriv,
+    this.spec.algorithm);
 };
 
 Head.prototype.generateKey = function(password) {

@@ -32,8 +32,8 @@ Body.prototype.getKvps = function() {
 
 Body.prototype.getContents = function() {
   return this.getKvps().reduce((aggregate, nextKvp) => {
-    aggregate[nextKvp.getKey()] =
-      this.decryptValue(nextKvp.getValue());
+    aggregate[nextKvp.get('key')] =
+      this.decryptValue(nextKvp.get('value'));
     return aggregate;
   }, {});
 };
@@ -51,16 +51,16 @@ Body.prototype.toBuffer = function() {
 
 Body.prototype.kvpToBuffer = function(kvp) {
   var keyLengthBuf = new Buffer(4);
-  var key = padder.addNullByte(kvp.getKey());
+  var key = padder.addNullByte(kvp.get('key'));
   keyLengthBuf.writeInt32BE(key.length);
 
-  var valueWithNull = padder.addNullByte(kvp.getValue());
+  var valueWithNull = padder.addNullByte(kvp.get('value'));
   var valueLengthBuf = new Buffer(4);
   var value = padder.pad(valueWithNull);
   var encryptedValue = this.ciphers.noPad.update(value);
   valueLengthBuf.writeInt32BE(valueWithNull.length);
 
-  var digestbuf = digest(kvp.getValue());
+  var digestbuf = digest(kvp.get('value'));
 
   return Buffer.concat([
     keyLengthBuf,
