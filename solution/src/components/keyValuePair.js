@@ -1,5 +1,5 @@
 var spec = require('../spec');
-var digest = require('../md5').digest;
+var digest = require('../md5');
 
 var KeyValuePair = function(keyOrBuffer, value) {
   if (Buffer.isBuffer(keyOrBuffer)) {

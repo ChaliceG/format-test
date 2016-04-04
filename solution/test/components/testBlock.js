@@ -1,5 +1,5 @@
 var TestBlock = require('../../src/components/testBlock');
-var digest = require('../../src/md5').digest;
+var digest = require('../../src/md5');
 var fs = require('fs');
 var crypto = require('crypto');
 var algorithm = 'aes128';

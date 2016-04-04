@@ -1,6 +1,6 @@
 var spec = require('../spec');
 var headSpec = spec.head;
-var digest = require('../md5').digest;
+var digest = require('../md5');
 var crypto = require('crypto');
 var randomStrings = require('../randomStrings');
 

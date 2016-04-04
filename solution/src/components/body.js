@@ -1,7 +1,7 @@
 var bodySpec = require('../spec').body;
 var Kvp = require('./keyValuePair');
 var padder = require('../padder');
-var digest = require('../md5').digest;
+var digest = require('../md5');
 
 var Body = function(ciphers, bufferOrPojo) {
   this.ciphers = ciphers;

@@ -1,5 +1,5 @@
 var blockSpec = require('../spec').testBlock;
-var digest = require('../md5').digest;
+var digest = require('../md5');
 var randomStrings = require('../randomStrings');
 
 var TestBlock = function(ciphers, optionalBuffer) {
