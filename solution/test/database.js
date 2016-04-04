@@ -16,30 +16,33 @@ describe('database', function() {
       result.should.equal(demoContents);
     });
   });
-  describe('#writeDatabase', function () {
-    it('should write the demo db', function () {
-        var path = __dirname + '/assets/demo.db';
-        database.writeDatabase(
-            path,
-            'uberpass',
-            demoContents);
+  describe('#writeDatabase', function() {
+    it('should write the demo db', function() {
+      var path = __dirname + '/assets/demo.db';
+      database.writeDatabase(
+          path,
+          'uberpass',
+          demoContents);
 
-        var writtenBuffer = fs.readFileSync(path);
+      var writtenBuffer = fs.readFileSync(path);
 
-        writtenBuffer.length.should.equal(demoDb.length);
+      writtenBuffer.length.should.equal(demoDb.length);
     });
   });
 });
-describe('module', function () {
-    it('should be able to read a file it writes', function () {
-        var path = __dirname + '/assets/integration.db';
-        var caseContents = JSON.stringify(integrationCases.easy);
-        var casePassword = 'woohoo';
+describe('module integration', function() {
+  Object.getOwnPropertyNames(integrationCases)
+    .forEach(function(testCaseName) {
+      it(`should be able to read a ${testCaseName} file it writes`, function() {
+        var path = __dirname + `/assets/${testCaseName}.db`;
+        var caseContents = JSON.stringify(integrationCases[testCaseName]);
+        var casePassword = testCaseName + testCaseName + testCaseName;
 
         database.writeDatabase(path, casePassword, caseContents);
 
-        var readEasy = database.readDatabase(path, casePassword);
+        var readWritten = database.readDatabase(path, casePassword);
 
-        readEasy.should.equal(caseContents);
+        readWritten.should.equal(caseContents);
+      });
     });
 });

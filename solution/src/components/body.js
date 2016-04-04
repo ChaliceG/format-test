@@ -1,4 +1,3 @@
-var util = require('util')
 var bodySpec = require('../spec').body;
 var Kvp = require('./keyValuePair');
 var padder = require('../padder');
@@ -51,19 +50,17 @@ Body.prototype.toBuffer = function() {
   return Buffer.concat(this.getKvps().map(kvp => this.kvpToBuffer(kvp)));
 };
 
-Body.prototype.kvpToBuffer = function (kvp) {
+Body.prototype.kvpToBuffer = function(kvp) {
   var keyLengthBuf = new Buffer(4);
   var key = padder.addNullByte(kvp.getKey());
   keyLengthBuf.writeInt32BE(key.length);
-  
-  
+
   var valueWithNull = padder.addNullByte(kvp.getValue());
   var valueLengthBuf = new Buffer(4);
   var value = padder.pad(valueWithNull);
   var encryptedValue = this.ciphers.noPad.update(value);
   valueLengthBuf.writeInt32BE(valueWithNull.length);
 
-  
   var digestbuf = digest(kvp.getValue());
 
   //console.log(util.inspect(kvp));
@@ -72,7 +69,6 @@ Body.prototype.kvpToBuffer = function (kvp) {
   //console.log('valueLength: ' + valueLengthBuf);
   //console.log('value: ' + encryptedValue);
   //console.log('digest: ' + digestbuf);
-
 
   var b =  Buffer.concat([
     keyLengthBuf,

@@ -41,7 +41,8 @@ KeyValuePair.prototype.getValue = function() {
       var valStart = this.getKey().length + 5;
       var length = this.buffer.readUInt32BE(valStart);
       var offset = valStart + 4;
-      this.value = this.buffer.slice(offset, offset + KeyValuePair.findSmallestBlockLength(length));
+      this.value = this.buffer.slice(
+        offset, offset + KeyValuePair.findSmallestBlockLength(length));
     } else {
       this.value = new Buffer(JSON.stringify(this.pojoValue));
     }
@@ -67,7 +68,7 @@ KeyValuePair.prototype.getDigest = function() {
 KeyValuePair.prototype.getLength = function() {
   var x =  8 + this.getKey().length + 1 +
       KeyValuePair.findSmallestBlockLength(this.getValue().length) + 16;
-      return x;
+  return x;
 };
 
 KeyValuePair.findSmallestBlockLength = function(wordlength) {

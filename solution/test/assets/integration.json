@@ -1,5 +1,11 @@
 {
     "easy": {
         "foo.com": "b4rb4z"
+    },
+    "medium": {
+        "this": {
+            "is": ["neat", "nifty"]
+        },
+        "jeepers": "creepers"
     }
 }
