@@ -1,17 +1,19 @@
 var digest = require('../md5');
 var randomStrings = require('../randomStrings');
+var BaseComponent = require('./baseComponent');
 
 var TestBlock = function(spec, ciphers, optionalBuffer) {
   this.spec = spec;
   this.classSpec = spec.testBlock;
   this.ciphers = ciphers;
-
+  
   if (optionalBuffer !== undefined) {
     this.buffer = optionalBuffer.slice(this.classSpec.start, this.classSpec.end);
 
     this.decipheredBuffer = ciphers.noPad.update(this.buffer);
   }
 };
+TestBlock.prototype = new BaseComponent();
 
 function zeroes() {
   var zeroesBuff = new Buffer(16);

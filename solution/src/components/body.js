@@ -1,6 +1,7 @@
 var Kvp = require('./keyValuePair');
 var padder = require('../padder');
 var digest = require('../md5');
+var BaseComponent = require('./baseComponent');
 
 var Body = function(spec, ciphers, bufferOrPojo) {
   this.spec = spec;
@@ -14,6 +15,7 @@ var Body = function(spec, ciphers, bufferOrPojo) {
     this.contents = bufferOrPojo;
   }
 };
+Body.prototype = new BaseComponent();
 
 function generateKvps(contents) {
   return Object.getOwnPropertyNames(contents)

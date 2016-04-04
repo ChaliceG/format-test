@@ -1,6 +1,7 @@
 var digest = require('../md5');
 var crypto = require('crypto');
 var randomStrings = require('../randomStrings');
+var BaseComponent = require('./baseComponent');
 
 var Head = function(spec, optionalBuffer) {
   this.spec = spec;
@@ -9,6 +10,7 @@ var Head = function(spec, optionalBuffer) {
     this.buffer = optionalBuffer.slice(this.classSpec.start, this.classSpec.end);
   }
 };
+Head.prototype = new BaseComponent();
 
 function createCipher(instance, password, constructor, algorithm) {
   if (typeof password !== 'string') {

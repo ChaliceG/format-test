@@ -1,5 +1,6 @@
 var spec = require('../spec');
 var digest = require('../md5');
+var BaseComponent = require('./baseComponent');
 
 var KeyValuePair = function(keyOrBuffer, value) {
   if (Buffer.isBuffer(keyOrBuffer)) {
@@ -9,6 +10,7 @@ var KeyValuePair = function(keyOrBuffer, value) {
   }
   this.pojoValue = value;
 };
+KeyValuePair.prototype = new BaseComponent();
 
 KeyValuePair.parse = function(buffer) {
   if (!buffer || !Buffer.isBuffer(buffer) || buffer.length === 0) {
