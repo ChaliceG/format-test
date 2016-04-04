@@ -2,7 +2,9 @@ var spec = require('../spec');
 var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 
-var KeyValuePair = function(keyOrBuffer, value) {
+var KeyValuePair = function(spec, keyOrBuffer, value) {
+  this.spec = spec;
+  this.classSpec = spec.keyValuePair;
   if (Buffer.isBuffer(keyOrBuffer)) {
     this.buffer = keyOrBuffer;
   } else {
@@ -12,14 +14,14 @@ var KeyValuePair = function(keyOrBuffer, value) {
 };
 KeyValuePair.prototype = new BaseComponent();
 
-KeyValuePair.parse = function(buffer) {
+KeyValuePair.parse = function(spec, buffer) {
   if (!buffer || !Buffer.isBuffer(buffer) || buffer.length === 0) {
     return [];
   } else {
-    var firstKvp = new KeyValuePair(buffer);
+    var firstKvp = new KeyValuePair(spec, buffer);
     var restKvps = buffer.slice(firstKvp.getLength(), buffer.length);
 
-    return [firstKvp].concat(KeyValuePair.parse(restKvps));
+    return [firstKvp].concat(KeyValuePair.parse(spec, restKvps));
   }
 };
 

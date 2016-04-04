@@ -17,17 +17,13 @@ var Body = function(spec, ciphers, bufferOrPojo) {
 };
 Body.prototype = new BaseComponent();
 
-function generateKvps(contents) {
-  return Object.getOwnPropertyNames(contents)
-      .map(key => new Kvp(key, contents[key]));
-}
-
 Body.prototype.getKvps = function() {
   if (this.kvps === undefined) {
     if (this.buffer !== undefined) {
-      this.kvps = Kvp.parse(this.buffer);
+      this.kvps = Kvp.parse(this.spec, this.buffer);
     } else {
-      this.kvps = generateKvps(this.contents);
+      this.kvps = Object.getOwnPropertyNames(this.contents)
+      .map(key => new Kvp(this.spec, key, this.contents[key]));
     }
   }
 
@@ -66,22 +62,13 @@ Body.prototype.kvpToBuffer = function(kvp) {
 
   var digestbuf = digest(kvp.getValue());
 
-  //console.log(util.inspect(kvp));
-  //console.log('keylength: ' + keyLengthBuf);
-  //console.log('key: ' + key);
-  //console.log('valueLength: ' + valueLengthBuf);
-  //console.log('value: ' + encryptedValue);
-  //console.log('digest: ' + digestbuf);
-
-  var b =  Buffer.concat([
+  return Buffer.concat([
     keyLengthBuf,
     key,
     valueLengthBuf,
     encryptedValue,
     digestbuf
-    ]);
-
-  return b;
+  ]);
 };
 
 module.exports = Body;
