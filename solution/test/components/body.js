@@ -35,5 +35,4 @@ describe.skip('Body', function() {
       contents.should.contain('are you');
     });
   });
-  //describe('#toBuffer');
 });

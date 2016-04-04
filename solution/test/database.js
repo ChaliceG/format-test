@@ -12,13 +12,12 @@ describe('database', function() {
     it('should read the demo db', function() {
       var result = database.readDatabase(
           __dirname + '/assets/demo.db', 'uberpass');
-
       result.should.equal(demoContents);
     });
   });
   describe('#writeDatabase', function() {
     it('should write the demo db', function() {
-      var path = __dirname + '/assets/demo.db';
+      var path = __dirname + '/assets/writtenDemo.db';
       database.writeDatabase(
           path,
           'uberpass',

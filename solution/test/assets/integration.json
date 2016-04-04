@@ -7,5 +7,11 @@
             "is": ["neat", "nifty"]
         },
         "jeepers": "creepers"
+    },
+    "hard": {
+        "empty": {},
+        "false": false,
+        "bigNumber": 90823409824908239048203894,
+        "test":{"blah":"bloh"}
     }
 }

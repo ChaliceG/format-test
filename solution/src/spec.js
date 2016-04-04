@@ -77,13 +77,13 @@ var spec = {
   },
   keyValuePair: {
     keyParse: function() {
-      return this.buffer.slice(4, 3 + this.buffer.readUInt32BE());
+      return this.buffer.slice(4, 4 + this.buffer.readUInt32BE());
     },
     keyBuild: function() {
       return new Buffer(this.stringKey);
     },
     digestParse: function() {
-      var thisLength = this.getLength();
+      var thisLength = this.get('length');
       var digestStart = thisLength - 16;
       return this.buffer.slice(digestStart, thisLength);
     },
@@ -91,7 +91,7 @@ var spec = {
       return digest(this.get('value'));
     },
     valueParse: function() {
-      var valStart = this.get('key').length + 5;
+      var valStart = this.get('key').length + 4;
       var length = this.buffer.readUInt32BE(valStart);
       var offset = valStart + 4;
       return this.buffer.slice(
@@ -101,7 +101,7 @@ var spec = {
       return new Buffer(JSON.stringify(this.pojoValue));
     },
     lengthParse: function() {
-      return 8 + this.get('key').length + 1 +
+      return 8 + this.get('key').length +
       this.spec.findSmallestBlockLength(this.get('value').length) + 16;
     }
   }

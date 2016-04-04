@@ -14,7 +14,7 @@ describe('Head', function() {
       head.buffer.length.should.equal(24);
     });
   });
-  describe('#createDeciphers', function() {
+  describe('#createDecipher', function() {
     it('should return two deciphers', function() {
       var head = new Head(spec, new Buffer(200));
 
@@ -36,7 +36,7 @@ describe('Head', function() {
       failed.should.equal(true);
     });
   });
-  describe('#createCiphers', function() {
+  describe('#createCipher', function() {
     it('should return two ciphers', function() {
       var head = new Head(spec);
 
