@@ -9,7 +9,7 @@ module.exports = {
     var file = fs.readFileSync(path);
     var head = new Head(spec, file);
     var deciphers = head.createDeciphers(password);
-    var testBlock = new TestBlock(deciphers, file);
+    var testBlock = new TestBlock(spec, deciphers, file);
 
     if (testBlock.validate()) {
       var body = new Body(spec, deciphers, file);
@@ -22,7 +22,7 @@ module.exports = {
   writeDatabase: function(path, password, contents) {
     var head = new Head(spec);
     var ciphers = head.createCiphers(password);
-    var testBlock = new TestBlock(ciphers);
+    var testBlock = new TestBlock(spec, ciphers);
     var body = new Body(spec, ciphers, JSON.parse(contents));
 
     fs.writeFileSync(path,
