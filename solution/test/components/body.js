@@ -8,7 +8,6 @@ var testFile = fs.readFileSync(__dirname + '/../assets/demo.db');
 var key = digest('wYl0$uberpass');
 var iv = testFile.slice(8, 24);
 
-
 var testDeciphers = {
   autoPad: crypto.createDecipheriv(algorithm, key, iv)
 };

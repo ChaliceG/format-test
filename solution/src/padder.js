@@ -1,22 +1,24 @@
-var Padder = function() {
-  this.wordLength = 16;
-};
+var wordLength = 16;
 
-Padder.prototype.pad = function(toPad) {
+var padder = {};
+
+padder.pad = function(toPad) {
   return toPad;
 };
 
-Padder.prototype.buildPadString = function(stringLength) {
-  var digit = (this.wordLength - (stringLength % this.wordLength));
-  var hexDigit = digit.toString(16);
-  var i = 0;
-  var ret = '';
+padder.buildPadString = function(bufferLength) {
+  if (bufferLength === 0) {
+    return new Buffer(0);
+  }
+  var digit = (wordLength - (bufferLength % wordLength));
 
-  for (; i < digit; i++) {
-    ret = ret + hexDigit;
+  var padBuffer = new Buffer(digit);
+
+  for(var i = 0; i < digit; i++) {
+    padBuffer.writeInt8(digit, i);
   }
 
-  return ret;
+  return padBuffer;
 };
 
-module.exports = Padder;
+module.exports = padder;

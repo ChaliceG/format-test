@@ -14,7 +14,7 @@ var Body = function(ciphers, bufferOrPojo) {
 
 function generateKvps(contents) {
   return contents.getOwnPropertyNames()
-      .map(name => new Kvp(name, contents[name]));
+      .map(key => new Kvp(key, contents[key]));
 }
 
 Body.prototype.getKvps = function() {
@@ -36,8 +36,8 @@ Body.prototype.getContents = function() {
   }, {});
 };
 
-Body.prototype.decryptValue = function (value) {
-  return this.ciphers.autoPad.update(value).toString('utf8');
+Body.prototype.decryptValue = function(value) {
+  return this.ciphers.noPad.update(value).toString('utf8');
 };
 
 Body.prototype.toBuffer = function() {

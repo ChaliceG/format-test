@@ -8,9 +8,11 @@ module.exports = {
     var file = fs.readFileSync(path);
     var head = new Head(file);
     var deciphers = head.createDeciphers(password);
+    //swap args
     var testBlock = new TestBlock(deciphers, file);
 
     if (testBlock.validate()) {
+      //swap args
       var body = new Body(deciphers, file);
 
       return body.getContents();

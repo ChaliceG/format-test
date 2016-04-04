@@ -1,51 +1,46 @@
-/*var Padder = require('../src/padder');
+var padder = require('../src/padder');
 
-describe.skip('Padder', function() {
-  describe('#constructor', function() {
-    it('should set the word length to 16', function() {
-      var padder = new Padder();
-
-      padder.wordLength.should.equal(16);
-    });
-  });
+describe('Padder', function() {
   describe('#pad', function() {
-    it('should take a string and return a string', function() {
-      var test = 'testone';
-      var padder = new Padder();
+    it('should take a buffer and return a buffer', function() {
+      var test = new Buffer('testone');
 
-      (typeof padder.pad(test)).should.equal('string');
+      Buffer.isBuffer(padder.pad(test)).should.equal(true);
     });
-    it('should always return a longer string', function() {
-      var test = 'testone';
-      var padder = new Padder();
+    it('should return a longer buf for non-block-lengh bufs', function() {
+      var test = new Buffer('testone');
 
       padder.pad(test).length.should.be.above(test.length);
     });
   });
   describe('#buildPadString', function() {
     it('should take an integer and return a string', function() {
-      var padder = new Padder();
-
       (typeof padder.buildPadString(5)).should.equal('string');
     });
     [
       {
         length: 14,
-        padding: '22'
+        padding: new Buffer('0202', 'hex')
       },
       {
         length: 16,
-        padding: 'fffffffffffffff'
+        padding: new Buffer('10101010101010101010101010101010', 'hex')
+      },
+      {
+        length: 17,
+        padding: new Buffer('0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f', 'hex')
+      },
+      {
+        length: 0,
+        padding: new Buffer(0)
       }
     ].forEach(testCase => {
-      it('creates a pad for str of len ' +
+      it('creates a pad for buffer of len ' +
         `${testCase.length} with ${testCase.padding}`, function() {
-        var padder = new Padder();
 
         padder.buildPadString(testCase.length)
-          .should.equal(testCase.padding);
+          .equals(testCase.padding).should.equal(true);
       });
     });
   });
 });
-*/
