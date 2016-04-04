@@ -6,11 +6,11 @@ var TestBlock = function(spec, ciphers, optionalBuffer) {
   this.spec = spec;
   this.classSpec = spec.testBlock;
   this.ciphers = ciphers;
-  
-  if (optionalBuffer !== undefined) {
-    this.buffer = optionalBuffer.slice(this.classSpec.start, this.classSpec.end);
 
-    this.decipheredBuffer = ciphers.noPad.update(this.buffer);
+  if (optionalBuffer !== undefined) {
+    this.virginBuffer = optionalBuffer.slice(this.classSpec.start, this.classSpec.end);
+
+    this.buffer = ciphers.noPad.update(this.virginBuffer);
   }
 };
 TestBlock.prototype = new BaseComponent();
@@ -23,27 +23,12 @@ function zeroes() {
 
 TestBlock.prototype.toBuffer = function() {
   var unencryptedBuffer = Buffer.concat([
-          this.getRandomString(),
-          digest(this.getRandomString()),
+          this.get('randomString'),
+          digest(this.get('randomString')),
           this.getZeroes()
       ]);
 
   return this.ciphers.noPad.update(unencryptedBuffer);
-};
-
-TestBlock.prototype.getRandomString = function() {
-  if (this.randomString === undefined) {
-    if (this.decipheredBuffer !== undefined) {
-      this.randomString = this.decipheredBuffer.slice(
-          this.classSpec.randomStringStart, this.classSpec.randomStringEnd);
-
-    } else {
-      this.randomString = randomStrings.cryptoRandom(
-          this.classSpec.randomStringEnd - this.classSpec.randomStringStart);
-    }
-  }
-
-  return this.randomString;
 };
 
 TestBlock.prototype.getZeroes = function() {
@@ -65,7 +50,7 @@ TestBlock.prototype.getDigest = function() {
       this.digest = this.decipheredBuffer.slice(
           this.classSpec.digestStart, this.classSpec.digestEnd);
     } else {
-      this.digest = digest(this.getRandomString());
+      this.digest = digest(this.get('randomString'));
     }
   }
 
@@ -73,7 +58,7 @@ TestBlock.prototype.getDigest = function() {
 };
 
 TestBlock.prototype.validate = function() {
-  var digestCorrect = this.getDigest().equals(digest(this.getRandomString()));
+  var digestCorrect = this.getDigest().equals(digest(this.get('randomString')));
   var zeroesPresent = zeroes().equals(this.getZeroes());
 
   return digestCorrect && zeroesPresent;

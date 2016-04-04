@@ -30,7 +30,7 @@ describe('TestBlock', function() {
     it('should take an optional buffer and decrypt it', function() {
       var testBlock = new TestBlock(spec, testDeciphers, new Buffer(200));
 
-      Buffer.isBuffer(testBlock.decipheredBuffer).should.equal(true);
+      Buffer.isBuffer(testBlock.buffer).should.equal(true);
     });
   });
   describe('#toBuffer', function() {
