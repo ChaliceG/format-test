@@ -1,4 +1,5 @@
 *.pyc
 env
 solution/node_modules/*
+solution/test/assets/*.db
 npm-debug.log
