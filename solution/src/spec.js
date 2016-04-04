@@ -1,4 +1,5 @@
 var randomStrings = require('./randomStrings');
+var digest = require('./md5');
 
 function zeroes() {
   var zeroesBuff = new Buffer(16);
@@ -12,16 +13,31 @@ module.exports = {
   algorithm: 'aes128',
   zeroes: zeroes,
   head: {
-    keyString: function(salt, password) {
-      return salt + '$' + password;
-    },
     start: 0,
     end: 24,
     marker: new Buffer('badcab00', 'hex'),
-    saltStart: 4,
-    saltEnd: 8,
-    ivStart: 8,
-    ivEnd: 24
+    keyString: function(salt, password) {
+      return salt + '$' + password;
+    },
+    saltParse: function () {
+      return this.buffer.slice(4, 8);
+    },
+    saltBuild: function () {
+      return randomStrings.alphanumeric(4);
+    },
+    ivParse: function () {
+      return this.buffer.slice(8, 24);
+    },
+    ivBuild: function () {
+      return randomStrings.cryptoRandom(16);
+    },
+    toBuffer: function () {
+      return Buffer.concat([
+        this.classSpec.marker,
+        this.get('salt'),
+        this.get('iv')
+      ]);
+    }    
   },
   testBlock: {
     start: 24,
@@ -41,7 +57,15 @@ module.exports = {
     },
     digestBuild: function () {
       return digest(this.get('randomString'));
-    }    
+    },
+    toBuffer: function () {
+      var unencryptedBuffer = Buffer.concat([
+        this.get('randomString'),
+        digest(this.get('randomString')),
+        this.get('zeroes')
+      ]);
+      return this.ciphers.noPad.update(unencryptedBuffer);
+    }
   },
   body: {
     start: 88

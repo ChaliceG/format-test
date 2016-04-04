@@ -18,7 +18,7 @@ function createCipher(instance, password, constructor, algorithm) {
   }
 
   var key = instance.generateKey(password);
-  var iv = instance.getIv();
+  var iv = instance.get('iv');
 
   var autoPad = constructor(algorithm, key, iv);
   var noPad = constructor(algorithm, key, iv);
@@ -39,45 +39,8 @@ Head.prototype.createCiphers = function(password) {
 };
 
 Head.prototype.generateKey = function(password) {
-  var saltString = this.getSalt().toString(this.spec.format);
+  var saltString = this.get('salt').toString(this.spec.format);
   return digest(this.classSpec.keyString(saltString, password));
-};
-
-Head.prototype.getSalt = function() {
-  if (this.salt === undefined) {
-    if (Buffer.isBuffer(this.buffer)) {
-      this.salt = this.buffer.slice(this.classSpec.saltStart, this.classSpec.saltEnd);
-    } else {
-      this.salt = randomStrings.alphanumeric(
-        this.classSpec.saltEnd - this.classSpec.saltStart);
-    }
-  }
-
-  return this.salt;
-};
-
-Head.prototype.getIv = function() {
-  if (this.iv === undefined) {
-    if (Buffer.isBuffer(this.buffer)) {
-      this.iv = this.buffer.slice(this.classSpec.ivStart, this.classSpec.ivEnd);
-    } else {
-      this.iv = randomStrings.cryptoRandom(this.classSpec.ivEnd - this.classSpec.ivStart);
-    }
-  }
-
-  return this.iv;
-};
-
-Head.prototype.toBuffer = function() {
-  var newBuffer = Buffer.concat([
-      this.classSpec.marker,
-      this.getSalt(),
-      this.getIv()
-      ]);
-
-  this.buffer = newBuffer;
-
-  return this.buffer;
 };
 
 module.exports = Head;
