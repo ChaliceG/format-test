@@ -1,7 +1,7 @@
 var spec = require('../src/spec');
 
-describe('spec', function () {
-    describe('$findSmallestBlockLength', function() {
+describe('spec', function() {
+  describe('$findSmallestBlockLength', function() {
     [
       {
         wordLength: 4,

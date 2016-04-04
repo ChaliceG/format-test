@@ -7,7 +7,7 @@ function zeroes() {
   return zeroesBuff;
 }
 
-function findSmallestBlockLength (wordlength) {
+function findSmallestBlockLength(wordlength) {
   return Math.ceil(wordlength / spec.blockSize) * spec.blockSize;
 }
 
@@ -24,46 +24,46 @@ var spec = {
     keyString: function(salt, password) {
       return salt + '$' + password;
     },
-    saltParse: function () {
+    saltParse: function() {
       return this.buffer.slice(4, 8);
     },
-    saltBuild: function () {
+    saltBuild: function() {
       return randomStrings.alphanumeric(4);
     },
-    ivParse: function () {
+    ivParse: function() {
       return this.buffer.slice(8, 24);
     },
-    ivBuild: function () {
+    ivBuild: function() {
       return randomStrings.cryptoRandom(16);
     },
-    toBuffer: function () {
+    toBuffer: function() {
       return Buffer.concat([
         this.classSpec.marker,
         this.get('salt'),
         this.get('iv')
       ]);
-    }    
+    }
   },
   testBlock: {
     start: 24,
     end: 88,
-    randomStringParse: function () {
+    randomStringParse: function() {
       return this.buffer.slice(0, 32);
     },
     randomStringBuild: function() {
       return randomStrings.cryptoRandom(32);
     },
-    zeroesParse: function (){
+    zeroesParse: function() {
       return this.buffer.slice(48, 64);
     },
     zeroesBuild: zeroes,
     digestParse: function() {
       return this.buffer.slice(32, 48);
     },
-    digestBuild: function () {
+    digestBuild: function() {
       return digest(this.get('randomString'));
     },
-    toBuffer: function () {
+    toBuffer: function() {
       var unencryptedBuffer = Buffer.concat([
         this.get('randomString'),
         digest(this.get('randomString')),
@@ -76,31 +76,31 @@ var spec = {
     start: 88
   },
   keyValuePair: {
-    keyParse: function () {
+    keyParse: function() {
       return this.buffer.slice(4, 3 + this.buffer.readUInt32BE());
     },
-    keyBuild: function () {
+    keyBuild: function() {
       return new Buffer(this.stringKey);
     },
-    digestParse: function () {
+    digestParse: function() {
       var thisLength = this.getLength();
       var digestStart = thisLength - 16;
       return this.buffer.slice(digestStart, thisLength);
     },
-    digestBuild: function () {
+    digestBuild: function() {
       return digest(this.get('value'));
     },
-    valueParse: function () {
+    valueParse: function() {
       var valStart = this.get('key').length + 5;
       var length = this.buffer.readUInt32BE(valStart);
       var offset = valStart + 4;
       return this.buffer.slice(
         offset, offset + findSmallestBlockLength(length));
     },
-    valueBuild: function () {
+    valueBuild: function() {
       return new Buffer(JSON.stringify(this.pojoValue));
     },
-    lengthParse: function () {
+    lengthParse: function() {
       return 8 + this.get('key').length + 1 +
       this.spec.findSmallestBlockLength(this.get('value').length) + 16;
     }

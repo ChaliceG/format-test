@@ -1,11 +1,9 @@
-var spec = require('../spec');
-var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 
 var KeyValuePair = function(spec, keyOrBuffer, value) {
   this.spec = spec;
   this.classSpec = spec.keyValuePair;
-  
+
   if (Buffer.isBuffer(keyOrBuffer)) {
     this.buffer = keyOrBuffer;
   } else {

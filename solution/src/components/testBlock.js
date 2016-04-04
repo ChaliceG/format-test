@@ -16,8 +16,10 @@ var TestBlock = function(spec, ciphers, optionalBuffer) {
 TestBlock.prototype = new BaseComponent();
 
 TestBlock.prototype.validate = function() {
-  var digestCorrect = this.get('digest').equals(digest(this.get('randomString')));
-  var zeroesPresent = this.spec.zeroes().equals(this.get('zeroes'));
+  var digestCorrect =
+    this.get('digest').equals(digest(this.get('randomString')));
+  var zeroesPresent =
+    this.spec.zeroes().equals(this.get('zeroes'));
 
   return digestCorrect && zeroesPresent;
 };

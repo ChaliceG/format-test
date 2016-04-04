@@ -12,8 +12,8 @@ BaseComponent.prototype.get = function(property) {
   return this[property];
 };
 
-BaseComponent.prototype.toBuffer = function () {
-    return this.classSpec.toBuffer.call(this);
+BaseComponent.prototype.toBuffer = function() {
+  return this.classSpec.toBuffer.call(this);
 };
 
 module.exports = BaseComponent;
