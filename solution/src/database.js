@@ -15,7 +15,7 @@ module.exports = {
       //swap args
       var body = new Body(deciphers, file);
 
-      return body.getContents();
+      return JSON.stringify(body.getContents());
     } else {
       throw new Error('Incorrect password');
     }

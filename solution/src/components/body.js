@@ -1,5 +1,6 @@
 var bodySpec = require('../spec').body;
 var Kvp = require('./keyValuePair');
+var padder = require('../padder');
 
 var Body = function(ciphers, bufferOrPojo) {
   this.ciphers = ciphers;
@@ -31,13 +32,17 @@ Body.prototype.getKvps = function() {
 
 Body.prototype.getContents = function() {
   return this.getKvps().reduce((aggregate, nextKvp) => {
-    aggregate[nextKvp.getKey()] = this.decryptValue(nextKvp.getValue());
+    aggregate[nextKvp.getKey()] =
+      this.decryptValue(nextKvp.getValue());
     return aggregate;
   }, {});
 };
 
 Body.prototype.decryptValue = function(value) {
-  return this.ciphers.noPad.update(value).toString('utf8');
+  var padded = this.ciphers.noPad.update(value);
+  var unpadded = padder.removePadding(padded);
+  var nullRemoved = padder.removeNullByte(unpadded);
+  return JSON.parse(nullRemoved.toString('utf8'));
 };
 
 Body.prototype.toBuffer = function() {
