@@ -1,14 +1,15 @@
-var bodySpec = require('../spec').body;
 var Kvp = require('./keyValuePair');
 var padder = require('../padder');
 var digest = require('../md5');
 
-var Body = function(ciphers, bufferOrPojo) {
+var Body = function(spec, ciphers, bufferOrPojo) {
+  this.spec = spec;
+  this.classSpec = spec.body;
   this.ciphers = ciphers;
 
   if (Buffer.isBuffer(bufferOrPojo)) {
     this.buffer = bufferOrPojo.slice(
-        bodySpec.start, bufferOrPojo.length);
+        this.classSpec.start, bufferOrPojo.length);
   } else {
     this.contents = bufferOrPojo;
   }

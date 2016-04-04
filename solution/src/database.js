@@ -12,7 +12,7 @@ module.exports = {
     var testBlock = new TestBlock(deciphers, file);
 
     if (testBlock.validate()) {
-      var body = new Body(deciphers, file);
+      var body = new Body(spec, deciphers, file);
 
       return JSON.stringify(body.getContents());
     } else {
@@ -23,7 +23,7 @@ module.exports = {
     var head = new Head(spec);
     var ciphers = head.createCiphers(password);
     var testBlock = new TestBlock(ciphers);
-    var body = new Body(ciphers, JSON.parse(contents));
+    var body = new Body(spec, ciphers, JSON.parse(contents));
 
     fs.writeFileSync(path,
         Buffer.concat([
