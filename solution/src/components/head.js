@@ -1,16 +1,16 @@
-var spec = require('../spec');
-var headSpec = spec.head;
 var digest = require('../md5');
 var crypto = require('crypto');
 var randomStrings = require('../randomStrings');
 
-var Head = function(optionalBuffer) {
+var Head = function(spec, optionalBuffer) {
+  this.spec = spec;
+  this.classSpec = spec.head;
   if (optionalBuffer !== undefined) {
-    this.buffer = optionalBuffer.slice(headSpec.start, headSpec.end);
+    this.buffer = optionalBuffer.slice(this.classSpec.start, this.classSpec.end);
   }
 };
 
-function createCipher(instance, password, constructor) {
+function createCipher(instance, password, constructor, algorithm) {
   if (typeof password !== 'string') {
     throw new Error('Head.createDeciphers requires a string password');
   }
@@ -18,8 +18,8 @@ function createCipher(instance, password, constructor) {
   var key = instance.generateKey(password);
   var iv = instance.getIv();
 
-  var autoPad = constructor(spec.algorithm, key, iv);
-  var noPad = constructor(spec.algorithm, key, iv);
+  var autoPad = constructor(algorithm, key, iv);
+  var noPad = constructor(algorithm, key, iv);
   noPad.setAutoPadding(false);
 
   return {
@@ -29,25 +29,25 @@ function createCipher(instance, password, constructor) {
 }
 
 Head.prototype.createDeciphers = function(password) {
-  return createCipher(this, password, crypto.createDecipheriv);
+  return createCipher(this, password, crypto.createDecipheriv, this.spec.algorithm);
 };
 
 Head.prototype.createCiphers = function(password) {
-  return createCipher(this, password, crypto.createCipheriv);
+  return createCipher(this, password, crypto.createCipheriv, this.spec.algorithm);
 };
 
 Head.prototype.generateKey = function(password) {
-  var saltString = this.getSalt().toString(spec.format);
-  return digest(headSpec.keyString(saltString, password));
+  var saltString = this.getSalt().toString(this.spec.format);
+  return digest(this.classSpec.keyString(saltString, password));
 };
 
 Head.prototype.getSalt = function() {
   if (this.salt === undefined) {
     if (Buffer.isBuffer(this.buffer)) {
-      this.salt = this.buffer.slice(headSpec.saltStart, headSpec.saltEnd);
+      this.salt = this.buffer.slice(this.classSpec.saltStart, this.classSpec.saltEnd);
     } else {
       this.salt = randomStrings.alphanumeric(
-        headSpec.saltEnd - headSpec.saltStart);
+        this.classSpec.saltEnd - this.classSpec.saltStart);
     }
   }
 
@@ -57,9 +57,9 @@ Head.prototype.getSalt = function() {
 Head.prototype.getIv = function() {
   if (this.iv === undefined) {
     if (Buffer.isBuffer(this.buffer)) {
-      this.iv = this.buffer.slice(headSpec.ivStart, headSpec.ivEnd);
+      this.iv = this.buffer.slice(this.classSpec.ivStart, this.classSpec.ivEnd);
     } else {
-      this.iv = randomStrings.cryptoRandom(headSpec.ivEnd - headSpec.ivStart);
+      this.iv = randomStrings.cryptoRandom(this.classSpec.ivEnd - this.classSpec.ivStart);
     }
   }
 
@@ -68,7 +68,7 @@ Head.prototype.getIv = function() {
 
 Head.prototype.toBuffer = function() {
   var newBuffer = Buffer.concat([
-      headSpec.marker,
+      this.classSpec.marker,
       this.getSalt(),
       this.getIv()
       ]);
