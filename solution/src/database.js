@@ -8,7 +8,7 @@ module.exports = {
   readDatabase: function(path, password) {
     var file = fs.readFileSync(path);
     var head = new Head(spec, file);
-    var deciphers = head.createDeciphers(password);
+    var deciphers = head.createDecipher(password);
     var testBlock = new TestBlock(spec, deciphers, file);
 
     if (testBlock.validate()) {
@@ -21,7 +21,7 @@ module.exports = {
   },
   writeDatabase: function(path, password, contents) {
     var head = new Head(spec);
-    var ciphers = head.createCiphers(password);
+    var ciphers = head.createCipher(password);
     var testBlock = new TestBlock(spec, ciphers);
     var body = new Body(spec, ciphers, JSON.parse(contents));
 

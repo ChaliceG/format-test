@@ -20,23 +20,19 @@ function createCipher(instance, password, constructor, algorithm) {
   var key = instance.generateKey(password);
   var iv = instance.get('iv');
 
-  var autoPad = constructor(algorithm, key, iv);
   var noPad = constructor(algorithm, key, iv);
   noPad.setAutoPadding(false);
 
-  return {
-    autoPad: autoPad,
-    noPad: noPad
-  };
+  return noPad;
 }
 
-Head.prototype.createDeciphers = function(password) {
+Head.prototype.createDecipher = function(password) {
   return createCipher(this, password,
     crypto.createDecipheriv,
     this.spec.algorithm);
 };
 
-Head.prototype.createCiphers = function(password) {
+Head.prototype.createCipher = function(password) {
   return createCipher(this, password,
     crypto.createCipheriv,
     this.spec.algorithm);

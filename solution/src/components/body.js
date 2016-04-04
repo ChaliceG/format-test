@@ -3,10 +3,10 @@ var padder = require('../padder');
 var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 
-var Body = function(spec, ciphers, bufferOrPojo) {
+var Body = function(spec, cipher, bufferOrPojo) {
   this.spec = spec;
   this.classSpec = spec.body;
-  this.ciphers = ciphers;
+  this.cipher = cipher;
 
   if (Buffer.isBuffer(bufferOrPojo)) {
     this.buffer = bufferOrPojo.slice(
@@ -39,7 +39,7 @@ Body.prototype.getContents = function() {
 };
 
 Body.prototype.decryptValue = function(value) {
-  var padded = this.ciphers.noPad.update(value);
+  var padded = this.cipher.update(value);
   var unpadded = padder.removePadding(padded);
   var nullRemoved = padder.removeNullByte(unpadded);
   return JSON.parse(nullRemoved.toString('utf8'));
@@ -57,7 +57,7 @@ Body.prototype.kvpToBuffer = function(kvp) {
   var valueWithNull = padder.addNullByte(kvp.get('value'));
   var valueLengthBuf = new Buffer(4);
   var value = padder.pad(valueWithNull);
-  var encryptedValue = this.ciphers.noPad.update(value);
+  var encryptedValue = this.cipher.update(value);
   valueLengthBuf.writeInt32BE(valueWithNull.length);
 
   var digestbuf = digest(kvp.get('value'));

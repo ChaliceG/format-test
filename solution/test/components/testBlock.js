@@ -13,29 +13,25 @@ noPadDecipher.setAutoPadding(false);
 var noPadCipher = crypto.createCipheriv(algorithm, key, iv);
 noPadCipher.setAutoPadding(false);
 
-var testDeciphers = {
-  noPad: noPadDecipher
-};
-var testCiphers = {
-  noPad: noPadCipher
-};
+var testDecipher = noPadDecipher;
+var testCipher = noPadCipher;
 
 describe('TestBlock', function() {
   describe('#Constructor', function() {
     it('should take and save ciphers', function() {
-      var testBlock = new TestBlock(spec, testCiphers);
+      var testBlock = new TestBlock(spec, testCipher);
 
-      (typeof testBlock.ciphers.noPad).should.equal('object');
+      (typeof testBlock.cipher).should.equal('object');
     });
     it('should take an optional buffer and decrypt it', function() {
-      var testBlock = new TestBlock(spec, testDeciphers, new Buffer(200));
+      var testBlock = new TestBlock(spec, testDecipher, new Buffer(200));
 
       Buffer.isBuffer(testBlock.buffer).should.equal(true);
     });
   });
   describe('#toBuffer', function() {
     it('should return a buffer of the test block\'s contents', function() {
-      var testBlock = new TestBlock(spec, testCiphers);
+      var testBlock = new TestBlock(spec, testCipher);
 
       var buffer = testBlock.toBuffer();
       Buffer.isBuffer(buffer).should.equal(true);
@@ -46,7 +42,7 @@ describe('TestBlock', function() {
   describe('#validate', function() {
     it.skip('returns true if the digest is the digest of the random string',
     function() {
-      var testBlock = new TestBlock(spec, testDeciphers, testFile);
+      var testBlock = new TestBlock(spec, testDecipher, testFile);
 
       testBlock.validate().should.equal(true);
     });

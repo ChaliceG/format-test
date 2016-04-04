@@ -1,16 +1,16 @@
 var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 
-var TestBlock = function(spec, ciphers, optionalBuffer) {
+var TestBlock = function(spec, cipher, optionalBuffer) {
   this.spec = spec;
   this.classSpec = spec.testBlock;
-  this.ciphers = ciphers;
+  this.cipher = cipher;
 
   if (optionalBuffer !== undefined) {
     this.virginBuffer = optionalBuffer.slice(
       this.classSpec.start, this.classSpec.end);
 
-    this.buffer = ciphers.noPad.update(this.virginBuffer);
+    this.buffer = cipher.update(this.virginBuffer);
   }
 };
 TestBlock.prototype = new BaseComponent();

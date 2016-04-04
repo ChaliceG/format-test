@@ -18,17 +18,16 @@ describe('Head', function() {
     it('should return two deciphers', function() {
       var head = new Head(spec, new Buffer(200));
 
-      var deciphers = head.createDeciphers('paaaaswrod');
+      var decipher = head.createDecipher('paaaaswrod');
 
-      (typeof deciphers.autoPad).should.equal('object');
-      (typeof deciphers.noPad).should.equal('object');
+      (typeof decipher).should.equal('object');
     });
     it('requires a password string', function() {
       var head = new Head(spec, new Buffer(200));
       var failed = false;
 
       try {
-        head.createDeciphers();
+        head.createDecipher();
       } catch (err) {
         failed = true;
         err.message.should.contain('password');
@@ -41,17 +40,16 @@ describe('Head', function() {
     it('should return two ciphers', function() {
       var head = new Head(spec);
 
-      var ciphers = head.createCiphers('pwpwpwpwpwpw');
+      var cipher = head.createCipher('pwpwpwpwpwpw');
 
-      (typeof ciphers.autoPad).should.equal('object');
-      (typeof ciphers.noPad).should.equal('object');
+      (typeof cipher).should.equal('object');
     });
     it('requires a password string', function() {
       var head = new Head(spec, new Buffer(200));
       var failed = false;
 
       try {
-        head.createCiphers();
+        head.createCipher();
       } catch (err) {
         failed = true;
         err.message.should.contain('password');

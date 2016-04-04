@@ -69,7 +69,7 @@ var spec = {
         digest(this.get('randomString')),
         this.get('zeroes')
       ]);
-      return this.ciphers.noPad.update(unencryptedBuffer);
+      return this.cipher.update(unencryptedBuffer);
     }
   },
   body: {
