@@ -24,7 +24,7 @@ module.exports = {
     var head = new Head();
     var ciphers = head.createCiphers(password);
     var testBlock = new TestBlock(ciphers);
-    var body = new Body(ciphers, contents);
+    var body = new Body(ciphers, JSON.parse(contents));
 
     fs.writeFileSync(path,
         Buffer.concat([

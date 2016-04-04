@@ -26,7 +26,7 @@ TestBlock.prototype.toBuffer = function() {
           this.getZeroes()
       ]);
 
-  return unencryptedBuffer;
+  return this.ciphers.noPad.update(unencryptedBuffer);
 };
 
 TestBlock.prototype.getRandomString = function() {

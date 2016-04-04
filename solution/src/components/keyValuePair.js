@@ -7,7 +7,7 @@ var KeyValuePair = function(keyOrBuffer, value) {
   } else {
     this.stringKey = keyOrBuffer;
   }
-  this.stringValue = value;
+  this.pojoValue = value;
 };
 
 KeyValuePair.parse = function(buffer) {
@@ -28,7 +28,7 @@ KeyValuePair.prototype.getKey = function() {
       var offset = 4;
       this.key = this.buffer.slice(offset, offset + length - 1);
     } else {
-      //turn key into utf8 string buffer
+      this.key = new Buffer(this.stringKey);
     }
   }
 
@@ -41,9 +41,9 @@ KeyValuePair.prototype.getValue = function() {
       var valStart = this.getKey().length + 5;
       var length = this.buffer.readUInt32BE(valStart);
       var offset = valStart + 4;
-      this.value = this.buffer.slice(offset, offset + length);
+      this.value = this.buffer.slice(offset, offset + KeyValuePair.findSmallestBlockLength(length));
     } else {
-      //turn pojo into json buffer
+      this.value = new Buffer(JSON.stringify(this.pojoValue));
     }
   }
 
@@ -65,8 +65,9 @@ KeyValuePair.prototype.getDigest = function() {
 };
 
 KeyValuePair.prototype.getLength = function() {
-  return 8 + this.getKey().length + 1 +
-      this.getValue().length + 16;
+  var x =  8 + this.getKey().length + 1 +
+      KeyValuePair.findSmallestBlockLength(this.getValue().length) + 16;
+      return x;
 };
 
 KeyValuePair.findSmallestBlockLength = function(wordlength) {
