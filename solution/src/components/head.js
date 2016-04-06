@@ -25,8 +25,8 @@ function createCipher(instance, password, constructor) {
 }
 
 function keyString(salt, password) {
-      return salt + '$' + password;
-    }
+  return salt + '$' + password;
+}
 
 Head.prototype.createDecipher = function(password) {
   return createCipher(this, password,
@@ -44,27 +44,27 @@ Head.prototype.generateKey = function(password) {
 };
 
 Head.prototype.saltParse = function() {
-      return this.buffer.slice(4, 8);
-    }
+  return this.buffer.slice(4, 8);
+};
 
 Head.prototype.saltBuild = function() {
-      return randomStrings.alphanumeric(4);
-    }
+  return randomStrings.alphanumeric(4);
+};
 
 Head.prototype.ivParse = function() {
-      return this.buffer.slice(8, 24);
-    }
+  return this.buffer.slice(8, 24);
+};
 
 Head.prototype.ivBuild = function() {
-      return randomStrings.cryptoRandom(16);
-    }
+  return randomStrings.cryptoRandom(16);
+};
 
 Head.prototype.toBuffer = function() {
-      return Buffer.concat([
-        new Buffer('badcab00', 'hex'),
-        this.get('salt'),
-        this.get('iv')
-      ]);
-    }
+  return Buffer.concat([
+    new Buffer('badcab00', 'hex'),
+    this.get('salt'),
+    this.get('iv')
+  ]);
+};
 
 module.exports = Head;

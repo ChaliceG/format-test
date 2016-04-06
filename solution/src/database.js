@@ -19,16 +19,17 @@ module.exports = {
     }
   },
   writeDatabase: function(path, password, contents) {
+    var pojoContents = JSON.parse(contents);
     var head = new Head();
     var cipher = head.createCipher(password);
     var testBlock = new TestBlock(cipher);
-    var body = new Body(cipher, JSON.parse(contents));
+    var body = new Body(cipher, pojoContents);
 
     fs.writeFileSync(path,
-        Buffer.concat([
-          head.toBuffer(),
-          testBlock.toBuffer(),
-          body.toBuffer(JSON.parse(contents))
-        ]));
+      Buffer.concat([
+        head.toBuffer(),
+        testBlock.toBuffer(),
+        body.toBuffer(pojoContents)
+      ]));
   }
 };

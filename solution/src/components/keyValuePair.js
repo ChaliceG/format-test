@@ -14,9 +14,9 @@ KeyValuePair.prototype = new BaseComponent();
 
 KeyValuePair.findSmallestBlockLength = function(wordlength) {
   return Math.ceil(wordlength / 16) * 16;
-}
+};
 
-KeyValuePair.prototype.size = function () {
+KeyValuePair.prototype.size = function() {
   return 8 + this.get('key').length +
     KeyValuePair.findSmallestBlockLength(this.get('value').length) + 16;
 };
@@ -51,37 +51,37 @@ KeyValuePair.prototype.parseValue = function(cipher) {
 };
 
 KeyValuePair.prototype.parseKey = function() {
-  return padder.removeNullByte(this.get('key'))
+  return padder.removeNullByte(this.get('key'));
 };
 
 KeyValuePair.prototype.keyParse = function() {
-      return this.buffer.slice(4, 4 + this.buffer.readUInt32BE());
-    }
+  return this.buffer.slice(4, 4 + this.buffer.readUInt32BE());
+};
 
 KeyValuePair.prototype.keyBuild = function() {
-      return new Buffer(this.stringKey);
-    }
+  return new Buffer(this.stringKey);
+};
 
 KeyValuePair.prototype.digestParse = function() {
-      var thisLength = this.get('length');
-      var digestStart = thisLength - 16;
-      return this.buffer.slice(digestStart, thisLength);
-    }
+  var thisLength = this.get('length');
+  var digestStart = thisLength - 16;
+  return this.buffer.slice(digestStart, thisLength);
+};
 
 KeyValuePair.prototype.digestBuild = function() {
-      return digest(this.get('value'));
-    }
+  return digest(this.get('value'));
+};
 
 KeyValuePair.prototype.valueParse = function() {
-      var valStart = this.get('key').length + 4;
-      var length = this.buffer.readUInt32BE(valStart);
-      var offset = valStart + 4;
-      return this.buffer.slice(
-        offset, offset + KeyValuePair.findSmallestBlockLength(length));
-    }
+  var valStart = this.get('key').length + 4;
+  var length = this.buffer.readUInt32BE(valStart);
+  var offset = valStart + 4;
+  return this.buffer.slice(
+    offset, offset + KeyValuePair.findSmallestBlockLength(length));
+};
 
 KeyValuePair.prototype.valueBuild = function() {
-      return new Buffer(JSON.stringify(this.pojoValue));
-    }
+  return new Buffer(JSON.stringify(this.pojoValue));
+};
 
 module.exports = KeyValuePair;

@@ -29,34 +29,34 @@ TestBlock.prototype.validate = function() {
 };
 
 TestBlock.prototype.randomStringParse = function() {
-      return this.buffer.slice(0, 32);
-    };
+  return this.buffer.slice(0, 32);
+};
 
-TestBlock.prototype.randomStringBuild= function() {
-      return randomStrings.cryptoRandom(32);
-    };
+TestBlock.prototype.randomStringBuild = function() {
+  return randomStrings.cryptoRandom(32);
+};
 
 TestBlock.prototype.zeroesParse = function() {
-      return this.buffer.slice(48, 64);
-    };
-
-TestBlock.prototype.digestParse = function() {
-      return this.buffer.slice(32, 48);
-    };
-
-TestBlock.prototype.digestBuild = function() {
-      return digest(this.get('randomString'));
-    };
+  return this.buffer.slice(48, 64);
+};
 
 TestBlock.prototype.zeroesBuild = zeroes;
 
+TestBlock.prototype.digestParse = function() {
+  return this.buffer.slice(32, 48);
+};
+
+TestBlock.prototype.digestBuild = function() {
+  return digest(this.get('randomString'));
+};
+
 TestBlock.prototype.toBuffer = function() {
-      var unencryptedBuffer = Buffer.concat([
-        this.get('randomString'),
-        digest(this.get('randomString')),
-        this.get('zeroes')
-      ]);
-      return this.cipher.update(unencryptedBuffer);
-    };
-    
+  var unencryptedBuffer = Buffer.concat([
+    this.get('randomString'),
+    digest(this.get('randomString')),
+    this.get('zeroes')
+  ]);
+  return this.cipher.update(unencryptedBuffer);
+};
+
 module.exports = TestBlock;
