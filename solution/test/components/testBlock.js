@@ -36,14 +36,5 @@ describe('TestBlock', function() {
       Buffer.isBuffer(buffer).should.equal(true);
       buffer.length.should.equal(64);
     });
-    it('should encrypt the contents of the test block');
-  });
-  describe('#validate', function() {
-    it.skip('returns true if the digest is the digest of the random string',
-    function() {
-      var testBlock = new TestBlock(testDecipher, testFile);
-
-      testBlock.validate().should.equal(true);
-    });
   });
 });
