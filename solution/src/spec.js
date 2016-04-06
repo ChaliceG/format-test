@@ -12,38 +12,9 @@ function findSmallestBlockLength(wordlength) {
 }
 
 var spec = {
-  format: 'utf8',
   blockSize: 16,
-  algorithm: 'aes128',
   zeroes: zeroes,
   findSmallestBlockLength: findSmallestBlockLength,
-  head: {
-    start: 0,
-    end: 24,
-    marker: new Buffer('badcab00', 'hex'),
-    keyString: function(salt, password) {
-      return salt + '$' + password;
-    },
-    saltParse: function() {
-      return this.buffer.slice(4, 8);
-    },
-    saltBuild: function() {
-      return randomStrings.alphanumeric(4);
-    },
-    ivParse: function() {
-      return this.buffer.slice(8, 24);
-    },
-    ivBuild: function() {
-      return randomStrings.cryptoRandom(16);
-    },
-    toBuffer: function() {
-      return Buffer.concat([
-        this.classSpec.marker,
-        this.get('salt'),
-        this.get('iv')
-      ]);
-    }
-  },
   testBlock: {
     start: 24,
     end: 88,
@@ -72,9 +43,6 @@ var spec = {
       return this.cipher.update(unencryptedBuffer);
     }
   },
-  body: {
-    start: 88
-  },
   keyValuePair: {
     keyParse: function() {
       return this.buffer.slice(4, 4 + this.buffer.readUInt32BE());
@@ -99,10 +67,6 @@ var spec = {
     },
     valueBuild: function() {
       return new Buffer(JSON.stringify(this.pojoValue));
-    },
-    lengthParse: function() {
-      return 8 + this.get('key').length +
-      this.spec.findSmallestBlockLength(this.get('value').length) + 16;
     }
   }
 };

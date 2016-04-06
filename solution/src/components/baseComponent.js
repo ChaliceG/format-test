@@ -3,9 +3,17 @@ var BaseComponent = function() {};
 BaseComponent.prototype.get = function(property) {
   if (this[property] === undefined) {
     if (this.buffer !== undefined) {
-      this[property] = this.classSpec[property + 'Parse'].call(this);
+        if (this[property + 'Parse']) {
+            this[property] = this[property + 'Parse']();
+        } else {
+            this[property] = this.classSpec[property + 'Parse'].call(this);
+        }
     } else {
-      this[property] = this.classSpec[property + 'Build'].call(this);
+        if (this[property + 'Build']) {
+            this[property] = this[property + 'Build']();
+        } else {
+            this[property] = this.classSpec[property + 'Build'].call(this);
+        }
     }
   }
 

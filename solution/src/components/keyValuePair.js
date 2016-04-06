@@ -16,7 +16,8 @@ var KeyValuePair = function(spec, keyOrBuffer, value) {
 KeyValuePair.prototype = new BaseComponent();
 
 KeyValuePair.prototype.size = function () {
-  return this.get('length');
+  return 8 + this.get('key').length +
+    this.spec.findSmallestBlockLength(this.get('value').length) + 16;
 };
 
 KeyValuePair.prototype.toBuffer = function(cipher) {

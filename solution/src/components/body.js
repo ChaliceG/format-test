@@ -5,7 +5,6 @@ var BaseComponent = require('./baseComponent');
 
 var Body = function(spec, cipher, bufferOrPojo) {
   this.spec = spec;
-  this.classSpec = spec.body;
   this.cipher = cipher;
 };
 
