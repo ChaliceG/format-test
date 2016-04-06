@@ -2,7 +2,7 @@ var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 var randomStrings = require('../randomStrings');
 
-var TestBlock = function(spec, cipher, optionalBuffer) {
+var TestBlock = function(cipher, optionalBuffer) {
   this.cipher = cipher;
 
   if (optionalBuffer !== undefined) {

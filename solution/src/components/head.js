@@ -3,8 +3,7 @@ var crypto = require('crypto');
 var BaseComponent = require('./baseComponent');
 var randomStrings = require('../randomStrings');
 
-var Head = function(spec, optionalBuffer) {
-  this.spec = spec;
+var Head = function(optionalBuffer) {
   if (optionalBuffer !== undefined) {
     this.buffer = optionalBuffer.slice(0, 24);
   }
