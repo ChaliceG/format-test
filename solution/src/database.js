@@ -8,28 +8,28 @@ module.exports = {
   readDatabase: function(path, password) {
     var file = fs.readFileSync(path);
     var head = new Head(spec, file);
-    var deciphers = head.createDecipher(password);
-    var testBlock = new TestBlock(spec, deciphers, file);
+    var decipher = head.createDecipher(password);
+    var testBlock = new TestBlock(spec, decipher, file);
 
     if (testBlock.validate()) {
-      var body = new Body(spec, deciphers, file);
+      var body = new Body(spec, decipher, file);
 
-      return JSON.stringify(body.getContents());
+      return JSON.stringify(body.parseContents(file));
     } else {
       throw new Error('Incorrect password');
     }
   },
   writeDatabase: function(path, password, contents) {
     var head = new Head(spec);
-    var ciphers = head.createCipher(password);
-    var testBlock = new TestBlock(spec, ciphers);
-    var body = new Body(spec, ciphers, JSON.parse(contents));
+    var cipher = head.createCipher(password);
+    var testBlock = new TestBlock(spec, cipher);
+    var body = new Body(spec, cipher, JSON.parse(contents));
 
     fs.writeFileSync(path,
         Buffer.concat([
           head.toBuffer(),
           testBlock.toBuffer(),
-          body.toBuffer()
+          body.toBuffer(JSON.parse(contents))
         ]));
   }
 };
