@@ -3,7 +3,6 @@ var fs = require('fs');
 
 var demoContents = fs.readFileSync(__dirname + '/assets/demo.json')
     .toString();
-var demoDb = fs.readFileSync(__dirname + '/assets/demo.db');
 var integrationCases = JSON.parse(
     fs.readFileSync(__dirname + '/assets/integration.json'));
 
@@ -16,8 +15,8 @@ describe('database', function() {
     });
   });
 
-  /*describe('#writeDatabase', function() {
-    //This test fails because the demo.db has spaces
+  describe('#writeDatabase', function() {
+    /*//This test fails because the demo.db has spaces
     //in its json, which makes the final value 5 blocks
     //instead of 4.  This module parses json with or without
     //spaces, so its not an issue.
@@ -31,8 +30,20 @@ describe('database', function() {
       var writtenBuffer = fs.readFileSync(path);
 
       writtenBuffer.length.should.equal(demoDb.length);
+    });*/
+    it('should throw if the content string is not json', function () {
+      var failed = false;
+
+      try {
+        database.writeDatabase('blah', 'blah', 'not json');
+      } catch (err) {
+        failed = true;
+        err.message.should.contain('json');
+      }
+
+      failed.should.equal(true);
     });
-  });*/
+  });
 });
 describe('module integration', function() {
   Object.getOwnPropertyNames(integrationCases)

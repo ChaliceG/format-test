@@ -3,6 +3,11 @@ var crypto = require('crypto');
 var BaseComponent = require('./baseComponent');
 var randomStrings = require('../randomStrings');
 
+/**
+ * A head represents the first chunk (24 bytes) of the
+ * file.  The head is used to create the cipher and
+ * decipher.
+ */
 var Head = function(optionalBuffer) {
   if (optionalBuffer !== undefined) {
     this.buffer = optionalBuffer.slice(0, 24);

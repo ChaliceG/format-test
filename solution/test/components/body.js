@@ -1,5 +1,4 @@
 var Body = require('../../src/components/body');
-var Head = require('../../src/components/head');
 var digest = require('../../src/md5');
 var fs = require('fs');
 var crypto = require('crypto');

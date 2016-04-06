@@ -2,6 +2,12 @@ var BaseComponent = require('./baseComponent');
 var padder = require('../padder');
 var digest = require('../md5');
 
+/**
+ * A KeyValuePair represents a single key-value pair
+ * in the file.  KVPs have methods related to encrypting
+ * and decrypting value data and are the core representation
+ * of the file's contents.
+ */
 var KeyValuePair = function(keyOrBuffer, value) {
   if (Buffer.isBuffer(keyOrBuffer)) {
     this.buffer = keyOrBuffer;

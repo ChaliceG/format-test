@@ -2,6 +2,11 @@ var digest = require('../md5');
 var BaseComponent = require('./baseComponent');
 var randomStrings = require('../randomStrings');
 
+/**
+ * A TestBlock represents the second chunk in the file
+ * spec (bytes 24-88).  TestBlocks are used to validate
+ * the cipher without having to decrypt the entire file.
+ */
 var TestBlock = function(cipher, optionalBuffer) {
   this.cipher = cipher;
 

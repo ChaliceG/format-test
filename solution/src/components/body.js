@@ -1,5 +1,8 @@
 var Kvp = require('./keyValuePair');
 
+/**
+ * A body is a collection of key value pairs.
+ */
 var Body = function(cipher) {
   this.cipher = cipher;
 };
