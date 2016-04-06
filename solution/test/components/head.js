@@ -15,7 +15,7 @@ describe('Head', function() {
     });
   });
   describe('#createDecipher', function() {
-    it('should return two deciphers', function() {
+    it('should return a decipher', function() {
       var head = new Head(spec, new Buffer(200));
 
       var decipher = head.createDecipher('paaaaswrod');
@@ -37,7 +37,7 @@ describe('Head', function() {
     });
   });
   describe('#createCipher', function() {
-    it('should return two ciphers', function() {
+    it('should return a cipher', function() {
       var head = new Head(spec);
 
       var cipher = head.createCipher('pwpwpwpwpwpw');
