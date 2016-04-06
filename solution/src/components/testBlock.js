@@ -24,6 +24,13 @@ function zeroes() {
   return zeroesBuff;
 }
 
+/**
+ * Checks if the digest of the random string portion of the block
+ * equals the digest portion of the block and the last 16 bytes
+ * are all 0s.
+ *
+ * @return {boolean} valid
+ */
 TestBlock.prototype.validate = function() {
   var digestCorrect =
     this.get('digest').equals(digest(this.get('randomString')));

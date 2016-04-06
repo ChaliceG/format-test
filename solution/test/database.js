@@ -31,7 +31,7 @@ describe('database', function() {
 
       writtenBuffer.length.should.equal(demoDb.length);
     });*/
-    it('should throw if the content string is not json', function () {
+    it('should throw if the content string is not json', function() {
       var failed = false;
 
       try {

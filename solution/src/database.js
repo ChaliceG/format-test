@@ -11,7 +11,7 @@ module.exports = {
   *
   * @param {string} path
   * @param {string} password
-  * @return {json string} database
+  * @return {string} jsonDatabase
   */
   readDatabase: function(path, password) {
     var file = fs.readFileSync(path);
@@ -20,7 +20,7 @@ module.exports = {
     var testBlock = new TestBlock(decipher, file);
 
     if (testBlock.validate()) {
-      var body = new Body(decipher, file);
+      var body = new Body(decipher);
 
       return JSON.stringify(body.parseContents(file));
     } else {
@@ -33,12 +33,12 @@ module.exports = {
   *
   * @param {string} path
   * @param {string} password
-  * @param {json string} contents
+  * @param {string} jsonDatabase
   */
-  writeDatabase: function(path, password, contents) {
+  writeDatabase: function(path, password, jsonDatabase) {
     var pojoContents;
     try {
-      pojoContents = JSON.parse(contents);
+      pojoContents = JSON.parse(jsonDatabase);
     } catch (err) {
       throw new Error('Contents must be a valid json string.  Error: ' +
         err.message);
@@ -46,7 +46,7 @@ module.exports = {
     var head = new Head();
     var cipher = head.createCipher(password);
     var testBlock = new TestBlock(cipher);
-    var body = new Body(cipher, pojoContents);
+    var body = new Body(cipher);
 
     fs.writeFileSync(path,
       Buffer.concat([
