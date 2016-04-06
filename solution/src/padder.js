@@ -1,5 +1,10 @@
 var wordLength = 16;
 
+/**
+ * padder is a utility function object that deals with
+ * padding words with PKCS#7 padding as well as adding
+ * and removing null bytes.
+ */
 var padder = {};
 
 padder.pad = function(toPad) {

@@ -1,21 +1,19 @@
 var Kvp = require('./keyValuePair');
-var padder = require('../padder');
-var digest = require('../md5');
-var BaseComponent = require('./baseComponent');
 
-var Body = function(spec, cipher, bufferOrPojo) {
-  this.spec = spec;
-  this.classSpec = spec.body;
+/**
+ * A body is a collection of key value pairs.
+ */
+var Body = function(cipher) {
   this.cipher = cipher;
 };
 
-Body.prototype.parseKvps = function (buffer) {
+Body.prototype.parseKvps = function(buffer) {
   var start = 88;
   var end = buffer.length;
   var allKvps = [];
 
-  while(start < end) {
-    var firstKvp = new Kvp(this.spec, buffer.slice(start, end));
+  while (start < end) {
+    var firstKvp = new Kvp(buffer.slice(start, end));
     start += firstKvp.size();
     allKvps.push(firstKvp);
   }
@@ -23,9 +21,9 @@ Body.prototype.parseKvps = function (buffer) {
   return allKvps;
 };
 
-Body.prototype.buildKvps = function (contents) {
-  return this.kvps = Object.getOwnPropertyNames(contents)
-      .map(key => new Kvp(this.spec, key, contents[key]));
+Body.prototype.buildKvps = function(contents) {
+  return Object.getOwnPropertyNames(contents)
+      .map(key => new Kvp(key, contents[key]));
 };
 
 Body.prototype.parseContents = function(buffer) {

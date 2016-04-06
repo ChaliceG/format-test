@@ -9,30 +9,23 @@ var key = digest('wYl0$uberpass');
 var iv = testFile.slice(8, 24);
 
 var testDecipher = crypto.createDecipheriv(algorithm, key, iv);
-var testCipher = crypto.createCipheriv(algorithm, key, iv);
+testDecipher.setAutoPadding(false);
 
-describe.skip('Body', function() {
+describe('Body', function() {
   describe('#constructor', function() {
-    it('takes ciphers and a file buffer or pojo contents',
-        function() {
-          var bodyBuffer = new Body(testDecipher, new Buffer(200));
+    it('takes a cipher', function() {
+      var bodyBuffer = new Body(testDecipher);
 
-          Buffer.isBuffer(bodyBuffer.buffer).should.equal(true);
-          (typeof bodyBuffer.cipher).should.equal('object');
-
-          var bodyPojo = new Body(testCipher, {foo: 'bar'});
-
-          bodyPojo.contents.should.have.property('foo').equal('bar');
-          (typeof bodyBuffer.cipher).should.equal('object');
-        });
+      (typeof bodyBuffer.cipher).should.equal('object');
+    });
   });
-  describe('#getContents', function() {
-    it('returns a contents pojo', function() {
-      var bodyBuffer = new Body(testDecipher, testFile);
+  describe('$parseKvps', function() {
+    it('takes a buffer and returns an array of kvps', function() {
+      var body = new Body(testDecipher);
 
-      var contents = bodyBuffer.getContents();
+      var kvps = body.parseKvps(testFile);
 
-      contents.should.contain('are you');
+      kvps.length.should.equal(5);
     });
   });
 });
